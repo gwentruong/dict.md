@@ -1,169 +1,44 @@
 import './App.css';
-import { Layout, Menu } from 'antd';
-import {
-  AppstoreOutlined,
-  BarChartOutlined,
-  CloudOutlined,
-  ShopOutlined,
-  TeamOutlined,
-  UserOutlined,
-  UploadOutlined,
-  VideoCameraOutlined,
-} from '@ant-design/icons';
-
-const { Header, Content, Footer, Sider } = Layout;
+import { Row, Col, Button, Input, Typography, Layout } from 'antd';
+import { SearchOutlined, UploadOutlined} from '@ant-design/icons';
 
 function App() {
   return (
-    <Layout>
-      <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
-        <div className="logo" />
-        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
-          <Menu.Item key="1">nav 1</Menu.Item>
-          <Menu.Item key="2">nav 2</Menu.Item>
-          <Menu.Item key="3">nav 3</Menu.Item>
-        </Menu>
-      </Header>
-      <Sider
-        style={{
-          overflow: 'auto',
-          height: '100vh',
-          position: 'fixed',
-          left: 0,
-        }}
-      >
-        <div className="logo" />
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
-          <Menu.Item key="1" icon={<UserOutlined />}>
-            nav 1
-          </Menu.Item>
-          <Menu.Item key="2" icon={<VideoCameraOutlined />}>
-            nav 2
-          </Menu.Item>
-          <Menu.Item key="3" icon={<UploadOutlined />}>
-            nav 3
-          </Menu.Item>
-          <Menu.Item key="4" icon={<BarChartOutlined />}>
-            nav 4
-          </Menu.Item>
-          <Menu.Item key="5" icon={<CloudOutlined />}>
-            nav 5
-          </Menu.Item>
-          <Menu.Item key="6" icon={<AppstoreOutlined />}>
-            nav 6
-          </Menu.Item>
-          <Menu.Item key="7" icon={<TeamOutlined />}>
-            nav 7
-          </Menu.Item>
-          <Menu.Item key="8" icon={<ShopOutlined />}>
-            nav 8
-          </Menu.Item>
-        </Menu>
-      </Sider>
-      <Layout className="site-layout" style={{ marginLeft: 200 }}>
-        <Header className="site-layout-background" style={{ padding: 0 }} />
-        <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
-          <div className="site-layout-background" style={{ padding: 24, textAlign: 'center' }}>
-            ...
-            <br />
-            Really
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            long
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            ...
-            <br />
-            content
-          </div>
-        </Content>
-        <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
-      </Layout>
-    </Layout>
+    <>
+      <Row gutter={16}>
+        <Col span={24}>
+          <Layout.Header style={{ textAlign: 'center', backgroundColor: '#FFF' }}>
+            <Typography.Title>BulkDict</Typography.Title>
+          </Layout.Header>
+        </Col>
+      </Row>
+      <Row gutter={16}>
+        <Col span={12} offset={6}>
+          <Input.TextArea rows={4} />
+        </Col>
+        <Col span={6}>
+          <Row>
+            <Button icon={<SearchOutlined />}>Search</Button>
+          </Row>
+          <Row>
+            <Button icon={<UploadOutlined />}>Upload .txt</Button>
+          </Row>
+        </Col>
+      </Row>
+      <Row gutter={16} justify="space-between">
+        <Col flex={2}>
+          <Input.TextArea rows={10} placeholder="Edit .md" bordered={false}/>
+        </Col>
+        <Col flex={3}>
+          <Layout.Content> Content</Layout.Content>
+        </Col>
+      </Row>
+      <Row gutter={16}>
+        <Col span={24}>
+          <Layout.Footer style={{ textAlign: 'center', backgroundColor: '#FFF'  }}>Uyen Truong, Yifan Yu ©2021</Layout.Footer>
+        </Col>
+      </Row>
+    </>
   );
 }
 
