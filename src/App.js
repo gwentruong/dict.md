@@ -3,10 +3,13 @@ import axios from 'axios';
 import './App.css';
 import { Row, Col, Button, Input, Typography, Layout } from 'antd';
 import { SearchOutlined, UploadOutlined} from '@ant-design/icons';
+import marked from 'marked';
 
 const App = () => {
   const [wordText, setWordText] = useState()
   const [definitionMD, setDefinitionMD] = useState();
+  const [formatedMD, setFormatedMD] = useState();
+
   const header = 'Access-Control-Allow-Headers: *'
 
   useEffect(() => {
@@ -14,8 +17,12 @@ const App = () => {
       axios.get('http://127.0.0.1:8000/md', {header: header})
         .then(
           res => {
-            console.log('res', res.data)
             setDefinitionMD(res.data)
+            let blockMD = {
+              __html: marked(res.data, {sanitize: true})
+            }
+            console.log(blockMD)
+            setFormatedMD(blockMD)
           },
           err => {
             console.error(err)
@@ -55,7 +62,9 @@ const App = () => {
             value={definitionMD} />
         </Col>
         <Col flex={3}>
-          <Layout.Content> Content</Layout.Content>
+          <Layout.Content>
+            <div id="md" dangerouslySetInnerHTML={formatedMD} />
+          </Layout.Content>
         </Col>
       </Row>
       <Row gutter={16}>
