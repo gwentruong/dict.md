@@ -1,14 +1,35 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './App.css';
 import { Row, Col, Button, Input, Typography, Layout } from 'antd';
 import { SearchOutlined, UploadOutlined} from '@ant-design/icons';
 
-function App() {
+const App = () => {
+  const [wordText, setWordText] = useState()
+  const [definitionMD, setDefinitionMD] = useState();
+  const header = 'Access-Control-Allow-Headers: *'
+
+  useEffect(() => {
+    if (!definitionMD) {
+      axios.get('http://127.0.0.1:8000/md', {header: header})
+        .then(
+          res => {
+            console.log('res', res.data)
+            setDefinitionMD(res.data)
+          },
+          err => {
+            console.error(err)
+          }
+        )
+    }
+  }, [definitionMD])
+
   return (
     <>
       <Row gutter={16}>
         <Col span={24}>
           <Layout.Header style={{ textAlign: 'center', backgroundColor: '#FFF' }}>
-            <Typography.Title>BulkDict</Typography.Title>
+            <Typography.Title>Dict.md</Typography.Title>
           </Layout.Header>
         </Col>
       </Row>
@@ -27,7 +48,11 @@ function App() {
       </Row>
       <Row gutter={16} justify="space-between">
         <Col flex={2}>
-          <Input.TextArea rows={10} placeholder="Edit .md" bordered={false}/>
+          <Input.TextArea
+            className="code"
+            rows={10} 
+            placeholder="Edit .md" 
+            value={definitionMD} />
         </Col>
         <Col flex={3}>
           <Layout.Content> Content</Layout.Content>
