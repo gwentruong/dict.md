@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
-import { Row, Col, Button, Input, Typography, Layout } from 'antd';
+import { Row, Col, Button, Input, Typography, Layout, Upload } from 'antd';
 import { SearchOutlined, UploadOutlined} from '@ant-design/icons';
 import marked from 'marked';
 
@@ -49,7 +49,9 @@ const App = () => {
             <Button icon={<SearchOutlined />}>Search</Button>
           </Row>
           <Row>
-            <Button icon={<UploadOutlined />}>Upload .txt</Button>
+            <Upload >
+              <Button icon={<UploadOutlined />}>Upload .txt</Button>
+            </Upload>
           </Row>
         </Col>
       </Row>
