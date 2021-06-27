@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import './App.css';
 import { Row, Col, Button, Input, Typography, Layout, Upload } from 'antd';
 import { SearchOutlined, UploadOutlined} from '@ant-design/icons';
@@ -32,13 +31,27 @@ const App = () => {
     }
   }
 
+  const loadFileContent = (file) => {
+    const reader = new FileReader()
+
+    reader.onload = (e) => {
+      let rawText = wordText ? wordText : ""
+      setWordText(rawText.concat(e.target.result))
+    }
+
+    reader.readAsText(file)
+    return true
+  }
+
   const props = {
     name: "file",
     action: "http://127.0.0.1:8000/upload/",
     headers: {
       "Access-Control-Allow-Headers": '*'
     },
-    onChange: handleChange
+    onChange: handleChange,
+    accept: ".txt",
+    beforeUpload: loadFileContent
   }
   useEffect(() => {
     if (definitionMD) {
@@ -60,7 +73,7 @@ const App = () => {
       </Row>
       <Row gutter={16}>
         <Col span={12} offset={6}>
-          <Input.TextArea rows={4} />
+          <Input.TextArea placeholder="Separate each word by new line" rows={4} value={wordText}/>
         </Col>
         <Col span={6}>
           <Row>
