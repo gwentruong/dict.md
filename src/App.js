@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
-import { Row, Col, Button, Input, Typography, Layout, Upload } from 'antd';
+import { Row, Col, Button, Input, Typography, Layout, Upload, Spin} from 'antd';
 import { SearchOutlined, UploadOutlined} from '@ant-design/icons';
-import marked from 'marked';
+import marked, { use } from 'marked';
 
 const App = () => {
   const [wordText, setWordText] = useState()
   const [definitionMD, setDefinitionMD] = useState();
   const [formatedMD, setFormatedMD] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   const header = 'Access-Control-Allow-Headers: *'
 
   const handleChange = (info) => {
     if (info.file.status !== 'uploading') {
+      setIsLoading(true)
       console.log(info.file, info.fileList);
     }
     if (info.file.status === 'done') {
@@ -26,6 +28,7 @@ const App = () => {
           setDefinitionMD(rawString.concat(file.response))
         }
       })
+      setIsLoading(false)
     } else if (info.file.status === 'error') {
       console.error(`${info.file.name} file upload failed.`);
     }
@@ -44,19 +47,21 @@ const App = () => {
   }
 
   const searchText = () => {
+    setIsLoading(true)
     let body = {
       text: wordText
     }
     
-  axios.post("http://127.0.0.1:8000/uploadtext/", body, {header: header})
-      .then(
-        res => {
-          setDefinitionMD(res.data)
-        },
-        err => {
-          console.error(err)
-        }
-      )
+    axios.post("http://127.0.0.1:8000/uploadtext/", body, {header: header})
+        .then(
+          res => {
+            setDefinitionMD(res.data)
+            setIsLoading(false)
+          },
+          err => {
+            console.error(err)
+          }
+        )
   }
 
   const props = {
@@ -67,7 +72,8 @@ const App = () => {
     },
     onChange: handleChange,
     accept: ".txt",
-    beforeUpload: loadFileContent
+    beforeUpload: loadFileContent,
+    showUploadList: false
   }
 
   useEffect(() => {
@@ -121,9 +127,12 @@ const App = () => {
             value={definitionMD} />
         </Col>
         <Col flex={3}>
-          <Layout.Content>
-            <div id="md" dangerouslySetInnerHTML={formatedMD} />
-          </Layout.Content>
+          {isLoading ?
+              <Spin size="large" />
+          :
+            <Layout.Content>
+              <div id="md" dangerouslySetInnerHTML={formatedMD} />
+            </Layout.Content>}
         </Col>
       </Row>
       <Row gutter={16}>
