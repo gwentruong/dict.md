@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './App.css';
 import { Row, Col, Button, Input, Typography, Layout, Upload } from 'antd';
 import { SearchOutlined, UploadOutlined} from '@ant-design/icons';
@@ -21,7 +22,6 @@ const App = () => {
 
       fileList.map(file => {
         if (file.response) {
-          console.log('response', file.response)
           let rawString = definitionMD ? definitionMD : ""
           setDefinitionMD(rawString.concat(file.response))
         }
@@ -43,6 +43,22 @@ const App = () => {
     return true
   }
 
+  const searchText = () => {
+    let body = {
+      text: wordText
+    }
+    
+  axios.post("http://127.0.0.1:8000/uploadtext/", body, {header: header})
+      .then(
+        res => {
+          setDefinitionMD(res.data)
+        },
+        err => {
+          console.error(err)
+        }
+      )
+  }
+
   const props = {
     name: "file",
     action: "http://127.0.0.1:8000/upload/",
@@ -53,6 +69,7 @@ const App = () => {
     accept: ".txt",
     beforeUpload: loadFileContent
   }
+
   useEffect(() => {
     if (definitionMD) {
       let blockMD = {
@@ -73,11 +90,19 @@ const App = () => {
       </Row>
       <Row gutter={16}>
         <Col span={12} offset={6}>
-          <Input.TextArea placeholder="Separate each word by new line" rows={4} value={wordText}/>
+          <Input.TextArea 
+            placeholder="Separate each word by new line" 
+            rows={4} 
+            value={wordText}
+            onChange={(e) => setWordText(e.target.value)} />
         </Col>
         <Col span={6}>
           <Row>
-            <Button icon={<SearchOutlined />}>Search</Button>
+            <Button 
+              icon={<SearchOutlined />}
+              onClick={searchText}>
+                Search
+            </Button>
           </Row>
           <Row>
             <Upload {...props}>
@@ -91,7 +116,7 @@ const App = () => {
           <Input.TextArea
             className="code"
             rows={10} 
-            placeholder="Edit .md" 
+            placeholder="Edit .md"
             value={definitionMD} />
         </Col>
         <Col flex={3}>
