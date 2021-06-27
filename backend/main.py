@@ -1,4 +1,4 @@
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile, Form
 from fastapi.responses import PlainTextResponse
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -22,11 +22,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.post("/upload/", response_class=PlainTextResponse)
-async def upload_file(file: UploadFile = File(...)):
-    with open("words.txt", "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
-    
+def upload():
     processedFile = subprocess.run(['dick', './words.txt'], stdout=subprocess.PIPE)
 
     f = open('./words-result.md', 'r')
@@ -38,4 +34,22 @@ async def upload_file(file: UploadFile = File(...)):
     else:
         print("The file does not exist")
 
+    return content
+
+@app.post("/upload/", response_class=PlainTextResponse)
+async def upload_file(file: UploadFile = File(...)):
+    with open("words.txt", "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+
+    content = upload()
+    return content
+
+
+@app.post("/uploadtext/", response_class=PlainTextResponse)
+async def upload_text(text: str = Form(...)):
+    print(text)
+    with open("words.txt", "w") as buffer:
+        buffer.write(text)
+
+    content = upload()
     return content
