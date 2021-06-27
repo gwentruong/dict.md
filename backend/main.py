@@ -1,6 +1,7 @@
-from fastapi import FastAPI, File, UploadFile, Form
+from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import PlainTextResponse
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 
 import subprocess
 import shutil
@@ -21,6 +22,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+class SearchText(BaseModel):
+    text: str
 
 def upload():
     processedFile = subprocess.run(['dick', './words.txt'], stdout=subprocess.PIPE)
@@ -46,10 +50,9 @@ async def upload_file(file: UploadFile = File(...)):
 
 
 @app.post("/uploadtext/", response_class=PlainTextResponse)
-async def upload_text(text: str = Form(...)):
-    print(text)
+async def upload_text(item: SearchText):
     with open("words.txt", "w") as buffer:
-        buffer.write(text)
+        buffer.write(item.text)
 
     content = upload()
     return content
