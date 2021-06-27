@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
 import { Row, Col, Button, Input, Typography, Layout, Upload, Spin} from 'antd';
-import { SearchOutlined, UploadOutlined} from '@ant-design/icons';
-import marked, { use } from 'marked';
+import { SearchOutlined, UploadOutlined, DownloadOutlined} from '@ant-design/icons';
+import marked from 'marked';
 
 const App = () => {
   const [wordText, setWordText] = useState()
@@ -64,6 +64,19 @@ const App = () => {
         )
   }
 
+  const downloadMD = () => {
+    const blob = new Blob([definitionMD], {type: "text/plain"})
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "dict-result.md";
+    a.click();
+  }
+
+  const downloadPDF = () => {
+
+  }
+
   const props = {
     name: "file",
     action: "http://127.0.0.1:8000/upload/",
@@ -121,7 +134,7 @@ const App = () => {
         <Col flex={2}>
           <Input.TextArea
             className="code"
-            rows={10} 
+            rows={20} 
             placeholder="Edit .md"
             onChange={e => setDefinitionMD(e.target.value)}
             value={definitionMD} />
@@ -132,6 +145,16 @@ const App = () => {
           :
             <Layout.Content>
               <div id="md" dangerouslySetInnerHTML={formatedMD} />
+              {formatedMD ?
+                <Row>
+                  <Col>
+                    <Button icon={<DownloadOutlined />} onClick={downloadMD}>Download .md</Button>
+                  </Col>
+                  <Col>
+                    <Button icon={<DownloadOutlined />} onClick={downloadPDF}>Download .pdf</Button>
+                  </Col>
+                </Row> 
+              : null}
             </Layout.Content>}
         </Col>
       </Row>
