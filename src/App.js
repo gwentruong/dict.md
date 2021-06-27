@@ -117,6 +117,7 @@ const App = () => {
             className="code"
             rows={10} 
             placeholder="Edit .md"
+            onChange={e => setDefinitionMD(e.target.value)}
             value={definitionMD} />
         </Col>
         <Col flex={3}>
