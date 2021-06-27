@@ -12,22 +12,40 @@ const App = () => {
 
   const header = 'Access-Control-Allow-Headers: *'
 
+  const handleChange = (info) => {
+    if (info.file.status !== 'uploading') {
+      console.log(info.file, info.fileList);
+    }
+    if (info.file.status === 'done') {
+      console.log(`${info.file.name} file uploaded successfully`);
+      let fileList = [...info.fileList]
+
+      fileList.map(file => {
+        if (file.response) {
+          console.log('response', file.response)
+          let rawString = definitionMD ? definitionMD : ""
+          setDefinitionMD(rawString.concat(file.response))
+        }
+      })
+    } else if (info.file.status === 'error') {
+      console.error(`${info.file.name} file upload failed.`);
+    }
+  }
+
+  const props = {
+    name: "file",
+    action: "http://127.0.0.1:8000/upload/",
+    headers: {
+      "Access-Control-Allow-Headers": '*'
+    },
+    onChange: handleChange
+  }
   useEffect(() => {
-    if (!definitionMD) {
-      axios.get('http://127.0.0.1:8000/md', {header: header})
-        .then(
-          res => {
-            setDefinitionMD(res.data)
-            let blockMD = {
-              __html: marked(res.data, {sanitize: true})
-            }
-            console.log(blockMD)
-            setFormatedMD(blockMD)
-          },
-          err => {
-            console.error(err)
-          }
-        )
+    if (definitionMD) {
+      let blockMD = {
+        __html: marked(definitionMD, {sanitize: true})
+      }
+      setFormatedMD(blockMD)
     }
   }, [definitionMD])
 
@@ -49,7 +67,7 @@ const App = () => {
             <Button icon={<SearchOutlined />}>Search</Button>
           </Row>
           <Row>
-            <Upload >
+            <Upload {...props}>
               <Button icon={<UploadOutlined />}>Upload .txt</Button>
             </Upload>
           </Row>
