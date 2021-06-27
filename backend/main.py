@@ -1,7 +1,10 @@
-import subprocess
-from fastapi import FastAPI
+from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import PlainTextResponse
 from fastapi.middleware.cors import CORSMiddleware
+
+import subprocess
+import shutil
+import os
 
 app = FastAPI()
 
@@ -19,14 +22,20 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/", response_class=PlainTextResponse)
-async def main():
-    return "Hello World"
+@app.post("/upload/", response_class=PlainTextResponse)
+async def upload_file(file: UploadFile = File(...)):
+    with open("words.txt", "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+    
+    processedFile = subprocess.run(['dick', './words.txt'], stdout=subprocess.PIPE)
 
-@app.get("/md", response_class=PlainTextResponse)
-async def dick_md():
-    f = open('./test/words-result.md', 'r')
+    f = open('./words-result.md', 'r')
     content = f.read()
-    return content
+    
+    if (os.path.exists("words.txt") and os.path.exists("words.txt")):
+        os.remove("words.txt")
+        os.remove("words-result.md")
+    else:
+        print("The file does not exist")
 
-# result = subprocess.run(['dick', './test/words.txt'], stdout=subprocess.PIPE)
+    return content
