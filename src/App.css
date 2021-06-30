@@ -59,6 +59,12 @@
   padding: 10px;
 }
 
+.header {
+  text-align: center;
+  background-color: #FFFFFF;
+  font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New;
+}
+
 .footer {
   text-align: center;
   background-color: #EEEEEE;

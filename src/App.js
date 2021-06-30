@@ -105,14 +105,20 @@ const App = () => {
     <>
       <Row gutter={16}>
         <Col span={24}>
-          <Layout.Header style={{ textAlign: 'center', backgroundColor: '#FFF' }}>
+          <Layout.Header className="header">
             <Typography.Title>dict.md</Typography.Title>
           </Layout.Header>
         </Col>
       </Row>
       <Row gutter={16}>
         <Col span={6} offset={2}>
-          <Typography.Paragraph type="secondary">Looking up definition of multiple words at once</Typography.Paragraph>
+          <Typography.Paragraph type="secondary">Looking up definition of multiple words at once by</Typography.Paragraph>
+          <div>
+            <ul>
+              <li>Filling the text box</li>
+              <li>Uploading text file</li>
+            </ul>
+          </div>
         </Col>
         <Col span={8}>
           <Input.TextArea 
