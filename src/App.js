@@ -5,6 +5,8 @@ import { Row, Col, Button, Input, Typography, Layout, Upload, Spin} from 'antd';
 import { SearchOutlined, UploadOutlined, DownloadOutlined} from '@ant-design/icons';
 import marked from 'marked';
 
+// var markdownpdf = require("markdown-pdf")
+
 const App = () => {
   const [wordText, setWordText] = useState()
   const [definitionMD, setDefinitionMD] = useState();
@@ -27,6 +29,7 @@ const App = () => {
           let rawString = definitionMD ? definitionMD : ""
           setDefinitionMD(rawString.concat(file.response))
         }
+        return definitionMD
       })
       setIsLoading(false)
     } else if (info.file.status === 'error') {
@@ -73,9 +76,9 @@ const App = () => {
     a.click();
   }
 
-  const downloadPDF = () => {
-
-  }
+  // const downloadPDF = () => {
+  //   markdownpdf().from.string(definitionMD).to.buffer
+  // }
 
   const props = {
     name: "file",
@@ -117,50 +120,55 @@ const App = () => {
         </Col>
         <Col span={6}>
           <Row>
-            <Button 
+            <Button
+              className="but" 
               icon={<SearchOutlined />}
-              onClick={searchText}>
+              onClick={searchText}
+              shape="round">
                 Search
             </Button>
           </Row>
           <Row>
             <Upload {...props}>
-              <Button icon={<UploadOutlined />}>Upload .txt</Button>
+              <Button className="but" icon={<UploadOutlined />} shape="round">Upload .txt</Button>
             </Upload>
           </Row>
         </Col>
       </Row>
       <Row gutter={16} justify="space-between">
-        <Col flex={2}>
+        <Col span={11}>
           <Input.TextArea
             className="code"
-            rows={20} 
+            rows={21} 
             placeholder="Edit .md"
             onChange={e => setDefinitionMD(e.target.value)}
             value={definitionMD} />
-        </Col>
-        <Col flex={3}>
-          {isLoading ?
-              <Spin size="large" />
-          :
-            <Layout.Content>
-              <div id="md" dangerouslySetInnerHTML={formatedMD} />
-              {formatedMD ?
+          {definitionMD ?
                 <Row>
                   <Col>
-                    <Button icon={<DownloadOutlined />} onClick={downloadMD}>Download .md</Button>
-                  </Col>
-                  <Col>
-                    <Button icon={<DownloadOutlined />} onClick={downloadPDF}>Download .pdf</Button>
+                    <Button 
+                      className="but" 
+                      icon={<DownloadOutlined />} 
+                      onClick={downloadMD} 
+                      shape="round">
+                        Download .md
+                    </Button>
                   </Col>
                 </Row> 
-              : null}
+          : null}
+        </Col>
+        <Col span={13}>
+          {isLoading ?
+              <div className="spinner"><Spin size="large" /></div>
+          :
+            <Layout.Content>
+              <div className="render-text" id="md" dangerouslySetInnerHTML={formatedMD} />
             </Layout.Content>}
         </Col>
       </Row>
       <Row gutter={16}>
         <Col span={24}>
-          <Layout.Footer style={{ textAlign: 'center', backgroundColor: '#FFF'  }}>Uyen Truong, Yifan Yu ©2021</Layout.Footer>
+          <Layout.Footer className="footer">UI by Uyen Truong, Engine by Yifan Yu and Free Dictionary API ©2021</Layout.Footer>
         </Col>
       </Row>
     </>

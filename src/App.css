@@ -42,4 +42,31 @@
 .code {
   background-color:#EEEEEE;
   font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New;
+  margin: 15px;
+  word-wrap: break-word;
+  padding: 10px;
+}
+
+.but {
+  margin: 10px;
+  left: 10px;
+}
+
+.render-text {
+  overflow: scroll;
+  margin: 15px;
+  max-height: 34.5em;
+  padding: 10px;
+}
+
+.footer {
+  text-align: center;
+  background-color: #EEEEEE;
+  bottom: 0;
+}
+
+.spinner {
+  position: absolute;
+  top: 40%;
+  right: 50%;
 }
