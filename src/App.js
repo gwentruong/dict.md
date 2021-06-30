@@ -106,12 +106,15 @@ const App = () => {
       <Row gutter={16}>
         <Col span={24}>
           <Layout.Header style={{ textAlign: 'center', backgroundColor: '#FFF' }}>
-            <Typography.Title>Dict.md</Typography.Title>
+            <Typography.Title>dict.md</Typography.Title>
           </Layout.Header>
         </Col>
       </Row>
       <Row gutter={16}>
-        <Col span={12} offset={6}>
+        <Col span={6} offset={2}>
+          <Typography.Paragraph type="secondary">Looking up definition of multiple words at once</Typography.Paragraph>
+        </Col>
+        <Col span={8}>
           <Input.TextArea 
             placeholder="Separate each word by new line" 
             rows={4} 
