@@ -10,6 +10,7 @@ __Created by Create-React-App and FastAPI__
 * node
 * Python > 3.7
 * virtualenv
+* [dick](https://github.com/lambdalainen/dick/)
 
 ### Install
 
@@ -20,6 +21,9 @@ npm start
 ```
 
 **Backend on localhost:8000**
+
+[dick](https://github.com/lambdalainen/dick/) should be installed in prior.
+
 ```
 cd backend
 virtualenv dict
