@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
 import { Row, Col, Button, Input, Typography, Layout, Upload, Spin} from 'antd';
-import { SearchOutlined, UploadOutlined, DownloadOutlined} from '@ant-design/icons';
+import { SearchOutlined, UploadOutlined, DownloadOutlined, GithubOutlined} from '@ant-design/icons';
 import marked from 'marked';
 
 // var markdownpdf = require("markdown-pdf")
@@ -106,7 +106,7 @@ const App = () => {
       <Row gutter={16}>
         <Col span={24}>
           <Layout.Header className="header">
-            <Typography.Title>dict.md</Typography.Title>
+            <Typography.Title>dict.md <a href="https://github.com/gwentruong/dict.md"><GithubOutlined /></a></Typography.Title>
           </Layout.Header>
         </Col>
       </Row>
