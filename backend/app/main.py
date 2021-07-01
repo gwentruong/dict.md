@@ -27,7 +27,7 @@ class SearchText(BaseModel):
     text: str
 
 def upload():
-    processedFile = subprocess.run(['dick', './words.txt'], stdout=subprocess.PIPE)
+    processedFile = subprocess.run(['./dick', './words.txt'], stdout=subprocess.PIPE)
 
     f = open('./words-result.md', 'r')
     content = f.read()
