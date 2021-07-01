@@ -1,10 +1,14 @@
-FROM nginx:stable
+FROM node:13.12.0-alpine
 
-RUN rm -rf /usr/share/nginx/html/*
+WORKDIR /app
 
-COPY build /usr/share/nginx/html
-COPY nginx/nginx.conf /etc/nginx/nginx.conf
+ENV PATH /app/node_modules/.bin:$PATH
 
-EXPOSE 80
+COPY package.json ./
+COPY package-lock.json ./
+RUN npm install --silent
+RUN npm install react-scripts@3.4.1 -g --silent
 
-CMD ["nginx", "-g", "daemon off;"]
+COPY . ./
+
+CMD ["npm", "start"]
