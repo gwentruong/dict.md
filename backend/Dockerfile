@@ -1,6 +1,6 @@
 FROM tiangolo/uvicorn-gunicorn:python3.7
 
-EXPOSE 80
+EXPOSE 8080
 
 COPY /app /app
 
